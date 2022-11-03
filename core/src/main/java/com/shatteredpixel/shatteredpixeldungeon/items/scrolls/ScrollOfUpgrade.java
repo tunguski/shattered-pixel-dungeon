@@ -111,7 +111,7 @@ public class ScrollOfUpgrade extends InventoryScroll {
 
 		Talent.onUpgradeScrollUsed( Dungeon.hero );
 		
-		Badges.validateItemLevelAquired( item );
+		Badges.validateItemLevelAcquired( item );
 		Statistics.upgradesUsed++;
 		Badges.validateMageUnlock();
 	}

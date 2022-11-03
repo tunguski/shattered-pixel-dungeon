@@ -360,7 +360,10 @@ public class Hero extends Char {
 			|| (tier == 4 && armorAbility == null)) {
 			return 0;
 		} else if (lvl >= Talent.tierLevelThresholds[tier+1]){
-			return Talent.tierLevelThresholds[tier+1] - Talent.tierLevelThresholds[tier] - talentPointsSpent(tier) + bonusTalentPoints(tier);
+			return Talent.tierLevelThresholds[tier+1]
+					- Talent.tierLevelThresholds[tier]
+					- talentPointsSpent(tier)
+					+ bonusTalentPoints(tier);
 		} else {
 			return 1 + lvl - Talent.tierLevelThresholds[tier] - talentPointsSpent(tier) + bonusTalentPoints(tier);
 		}
@@ -769,7 +772,8 @@ public class Hero extends Char {
 
 	public boolean isStandingOnTrampleableGrass(){
 		return !rooted && !flying &&
-				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS || (heroClass != HeroClass.HUNTRESS && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
+				(Dungeon.level.map[pos] == Terrain.HIGH_GRASS
+						|| (heroClass != HeroClass.HUNTRESS && Dungeon.level.map[pos] == Terrain.FURROWED_GRASS));
 	}
 	
 	private boolean actMove( HeroAction.Move action ) {
@@ -1191,7 +1195,8 @@ public class Hero extends Char {
 					protected boolean act() {
 						if (enemy.isAlive()) {
 							int bonusTurns = hasTalent(Talent.SHARED_UPGRADES) ? wep.buffedLvl() : 0;
-							Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns).set(enemy.id(), bonusTurns);
+							Buff.prolong(Hero.this, SnipersMark.class, SnipersMark.DURATION + bonusTurns)
+									.set(enemy.id(), bonusTurns);
 						}
 						Actor.remove(this);
 						return true;
@@ -1208,7 +1213,7 @@ public class Hero extends Char {
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		
-		if (damage > 0 && subClass == HeroSubClass.BERSERKER){
+		if (damage > 0 && subClass == HeroSubClass.BERSERKER) {
 			Berserk berserk = Buff.affect(this, Berserk.class);
 			berserk.damage(damage);
 		}

@@ -24,6 +24,7 @@ package com.shatteredpixel.shatteredpixeldungeon.journal;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.utils.CollectionUtils;
 import com.watabou.utils.Bundle;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import static com.shatteredpixel.shatteredpixeldungeon.utils.CollectionUtils.allMatch;
+import static java.util.Arrays.asList;
 
 public enum Catalog {
 	
@@ -41,20 +45,19 @@ public enum Catalog {
 	ARTIFACTS,
 	POTIONS,
 	SCROLLS;
-	
+
+	public static List<Catalog> catalogs() {
+		return asList(Catalog.values());
+	}
+
 	private LinkedHashMap<Class<? extends Item>, Boolean> seen = new LinkedHashMap<>();
 	
 	public Collection<Class<? extends Item>> items(){
 		return seen.keySet();
 	}
-	
+
 	public boolean allSeen(){
-		for (Class<?extends Item> item : items()){
-			if (!seen.get(item)){
-				return false;
-			}
-		}
-		return true;
+		return allMatch(items(), item -> seen.get(item));
 	}
 	
 	static {
@@ -170,7 +173,7 @@ public enum Catalog {
 		//catalog-specific badge logic
 		for (Catalog cat : values()){
 			if (Badges.isUnlocked(catalogBadges.get(cat))){
-				for (Class<? extends Item> item : cat.items()){
+				for (Class<? extends Item> item : cat.items()) {
 					cat.seen.put(item, true);
 				}
 			}
@@ -180,7 +183,7 @@ public enum Catalog {
 		if (bundle.contains(CATALOG_ITEMS)) {
 			List<Class> seenClasses = new ArrayList<>();
 			if (bundle.contains(CATALOG_ITEMS)) {
-				seenClasses = Arrays.asList(bundle.getClassArray(CATALOG_ITEMS));
+				seenClasses = asList(bundle.getClassArray(CATALOG_ITEMS));
 			}
 			
 			for (Catalog cat : values()) {

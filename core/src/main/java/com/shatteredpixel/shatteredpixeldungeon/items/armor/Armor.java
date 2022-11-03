@@ -57,7 +57,6 @@ import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Swiftness;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Thorns;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.glyphs.Viscosity;
 import com.shatteredpixel.shatteredpixeldungeon.items.rings.RingOfArcana;
-import com.shatteredpixel.shatteredpixeldungeon.items.weapon.Weapon;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
@@ -242,7 +241,7 @@ public class Armor extends EquipableItem {
 			//doesn't trigger upgrading logic such as affecting curses/glyphs
 			int newLevel = trueLevel()+1;
 			level(newLevel);
-			Badges.validateItemLevelAquired(this);
+			Badges.validateItemLevelAcquired(this);
 		}
 		if (seal.getGlyph() != null){
 			inscribe(seal.getGlyph());
@@ -435,7 +434,7 @@ public class Armor extends EquipableItem {
 			if (usesLeftToID <= 0) {
 				identify();
 				GLog.p( Messages.get(Armor.class, "identify") );
-				Badges.validateItemLevelAquired( this );
+				Badges.validateItemLevelAcquired( this );
 			}
 		}
 		

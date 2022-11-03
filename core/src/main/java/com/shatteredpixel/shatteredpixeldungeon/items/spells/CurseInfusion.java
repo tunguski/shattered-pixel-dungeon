@@ -83,7 +83,7 @@ public class CurseInfusion extends InventorySpell {
 		} else if (item instanceof RingOfMight){
 			curUser.updateHT(false);
 		}
-		Badges.validateItemLevelAquired(item);
+		Badges.validateItemLevelAcquired(item);
 		updateQuickslot();
 	}
 	

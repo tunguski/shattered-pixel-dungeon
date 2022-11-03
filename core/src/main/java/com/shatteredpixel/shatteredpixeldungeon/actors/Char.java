@@ -112,6 +112,7 @@ import com.shatteredpixel.shatteredpixeldungeon.plants.Swiftthistle;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.CharSprite;
 import com.shatteredpixel.shatteredpixeldungeon.utils.BArray;
+import com.shatteredpixel.shatteredpixeldungeon.utils.CollectionUtils;
 import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundlable;
@@ -122,6 +123,8 @@ import com.watabou.utils.Random;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+
+import static com.shatteredpixel.shatteredpixeldungeon.utils.CollectionUtils.anyMatch;
 
 public abstract class Char extends Actor {
 	
@@ -446,7 +449,7 @@ public abstract class Char extends Actor {
 
 					if (this instanceof WandOfLivingEarth.EarthGuardian
 							|| this instanceof MirrorImage || this instanceof PrismaticImage){
-						Badges.validateDeathFromFriendlyMagic();
+						Badges.Badge.DEATH_FROM_FRIENDLY_MAGIC.validate();
 					}
 					Dungeon.fail( getClass() );
 					GLog.n( Messages.capitalize(Messages.get(Char.class, "kill", name())) );
@@ -952,13 +955,8 @@ public abstract class Char extends Actor {
 		for (Buff b : buffs()){
 			immunes.addAll(b.immunities());
 		}
-		
-		for (Class c : immunes){
-			if (c.isAssignableFrom(effect)){
-				return true;
-			}
-		}
-		return false;
+
+		return anyMatch(immunes, c -> c.isAssignableFrom(effect));
 	}
 
 	//similar to isImmune, but only factors in damage.

@@ -22,13 +22,14 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.NamedEntity;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.melee.MagesStaff;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.ui.HeroIcon;
 import com.watabou.noosa.Game;
 
-public enum HeroSubClass {
+public enum HeroSubClass implements NamedEntity {
 
 	NONE(HeroIcon.NONE),
 
@@ -50,17 +51,9 @@ public enum HeroSubClass {
 		this.icon = icon;
 	}
 	
-	public String title() {
-		return Messages.get(this, name());
-	}
-
-	public String shortDesc() {
-		return Messages.get(this, name()+"_short_desc");
-	}
-
 	public String desc() {
 		//Include the staff effect description in the battlemage's desc if possible
-		if (this == BATTLEMAGE){
+		if (this == BATTLEMAGE) {
 			String desc = Messages.get(this, name() + "_desc");
 			if (Game.scene() instanceof GameScene){
 				MagesStaff staff = Dungeon.hero.belongings.getItem(MagesStaff.class);
