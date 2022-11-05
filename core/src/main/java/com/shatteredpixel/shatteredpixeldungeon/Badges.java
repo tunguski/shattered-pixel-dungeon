@@ -224,8 +224,8 @@ public class Badges {
 		}
 	}
 
-	private static HashSet<Badge> global;
-	private static HashSet<Badge> local = new HashSet<>();
+	static HashSet<Badge> global;
+	static HashSet<Badge> local = new HashSet<>();
 
 	private static boolean saveNeeded = false;
 
@@ -395,11 +395,11 @@ public class Badges {
 	}
 
 	static final Map<Badge, Integer> foodEaten = CollectionUtils.<Badge, Integer>linkedMapBuilder()
-			.put(Badge.STRENGTH_ATTAINED_1, 12)
-			.put(Badge.STRENGTH_ATTAINED_2, 14)
-			.put(Badge.STRENGTH_ATTAINED_3, 16)
-			.put(Badge.STRENGTH_ATTAINED_4, 18)
-			.put(Badge.STRENGTH_ATTAINED_5, 20)
+			.put(Badge.FOOD_EATEN_1, 10)
+			.put(Badge.FOOD_EATEN_2, 20)
+			.put(Badge.FOOD_EATEN_3, 30)
+			.put(Badge.FOOD_EATEN_4, 40)
+			.put(Badge.FOOD_EATEN_5, 50)
 			.build();
 
 	public static void validateFoodEaten() {

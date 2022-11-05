@@ -24,22 +24,43 @@ package com.shatteredpixel.shatteredpixeldungeon.sprites;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.watabou.noosa.TextureFilm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemSpriteSheet {
 
 	private static final int WIDTH = 16;
 	public static final int SIZE = 16;
 
-	public static TextureFilm film = new TextureFilm( Assets.Sprites.ITEMS, SIZE, SIZE );
+	private static TextureFilm film;
+
+	public static TextureFilm film() {
+		if (film == null) {
+			film = new TextureFilm( Assets.Sprites.ITEMS, SIZE, SIZE );
+			assignItemRects.forEach(Runnable::run);
+		}
+
+		return film;
+	}
 
 	private static int xy(int x, int y){
 		x -= 1; y -= 1;
 		return x + WIDTH*y;
 	}
 
+	private static List<Runnable> assignItemRects = new ArrayList<>();
+
 	private static void assignItemRect( int item, int width, int height ){
-		int x = (item % WIDTH) * SIZE;
-		int y = (item / WIDTH) * SIZE;
-		film.add( item, x, y, x+width, y+height);
+		Runnable assignItem = () -> {
+			int x = (item % WIDTH) * SIZE;
+			int y = (item / WIDTH) * SIZE;
+			film.add( item, x, y, x+width, y+height);
+		};
+		if (film != null) {
+			assignItem.run();
+		} else {
+			assignItemRects.add(assignItem);
+		}
 	}
 
 	private static final int PLACEHOLDERS   =                               xy(1, 1);   //16 slots

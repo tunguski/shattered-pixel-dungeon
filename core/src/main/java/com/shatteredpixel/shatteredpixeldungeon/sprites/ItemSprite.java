@@ -231,9 +231,9 @@ public class ItemSprite extends MovieClip {
 	}
 
 	public void frame( int image ){
-		frame( ItemSpriteSheet.film.get( image ));
+		frame( ItemSpriteSheet.film().get( image ));
 
-		float height = ItemSpriteSheet.film.height( image );
+		float height = ItemSpriteSheet.film().height( image );
 		//adds extra raise to very short items, so they are visible
 		if (height < 8f){
 			perspectiveRaise =  (5 + 8 - height) / 16f;

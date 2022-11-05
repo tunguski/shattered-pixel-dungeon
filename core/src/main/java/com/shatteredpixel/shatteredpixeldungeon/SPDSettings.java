@@ -35,6 +35,8 @@ import com.watabou.utils.Point;
 import java.util.Locale;
 
 public class SPDSettings extends GameSettings {
+
+	public static boolean testEnvironment = false;
 	
 	//Version info
 	

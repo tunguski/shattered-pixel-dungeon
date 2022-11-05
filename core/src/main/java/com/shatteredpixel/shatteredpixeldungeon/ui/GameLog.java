@@ -44,7 +44,7 @@ public class GameLog extends Component implements Signal.Listener<String> {
 
 	public GameLog() {
 		super();
-		GLog.update.replace( this );
+		GLog.update().replace( this );
 
 		recreateLines();
 	}

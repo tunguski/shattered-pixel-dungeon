@@ -51,6 +51,7 @@ import com.watabou.utils.PointF;
 import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class PixelScene extends Scene {
 
@@ -322,6 +323,10 @@ public class PixelScene extends Scene {
 	}
 	
 	public static void showBadge( Badges.Badge badge ) {
+		showBadge.accept(badge);
+	}
+
+	public static Consumer<Badges.Badge> showBadge = badge ->
 		Game.runOnRenderThread(new Callback() {
 			@Override
 			public void call() {
@@ -344,8 +349,7 @@ public class PixelScene extends Scene {
 				}
 			}
 		});
-	}
-	
+
 	protected static class Fader extends ColorBlock {
 		
 		private static float FADE_TIME = 1f;

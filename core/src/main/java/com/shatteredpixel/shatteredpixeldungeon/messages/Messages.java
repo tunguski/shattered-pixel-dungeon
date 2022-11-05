@@ -42,12 +42,18 @@ import java.util.Locale;
  */
 public class Messages {
 
-	private static ArrayList<I18NBundle> bundles;
-	private static Languages lang;
+	private static Messages instance;
+
+	private ArrayList<I18NBundle> bundles;
+	private Languages lang;
 
 	public static final String NO_TEXT_FOUND = "!!!NO TEXT FOUND!!!";
 
 	public static Languages lang(){
+		return instance._lang();
+	}
+
+	public Languages _lang(){
 		return lang;
 	}
 
@@ -69,16 +75,30 @@ public class Messages {
 			Assets.Messages.WINDOWS
 	};
 
-	static{
-		setup(SPDSettings.language());
+	public Messages() {
+		_setup(SPDSettings.language());
+	}
+
+	static {
+		if (!SPDSettings.testEnvironment) {
+			instance = new Messages();
+		}
+	}
+
+	public static void setInstance(Messages messages) {
+		instance = messages;
 	}
 
 	public static void setup( Languages lang ){
+		instance._setup(lang);
+	}
+
+	public void _setup( Languages lang ){
 		//seeing as missing keys are part of our process, this is faster than throwing an exception
 		I18NBundle.setExceptionOnMissingKey(false);
 
 		bundles = new ArrayList<>();
-		Messages.lang = lang;
+		this.lang = lang;
 		Locale locale = new Locale(lang.code());
 
 		for (String file : prop_files) {
@@ -92,15 +112,23 @@ public class Messages {
 	 * Resource grabbing methods
 	 */
 
-	public static String get(String key, Object...args){
+	public String get(String key, Object...args){
 		return get(null, key, args);
 	}
 
 	public static String get(Object o, String k, Object...args){
+		return instance._get(o, k, args);
+	}
+
+	public String _get(Object o, String k, Object...args){
 		return get(o.getClass(), k, args);
 	}
 
 	public static String get(Class c, String k, Object...args){
+		return instance._get(c, k, args);
+	}
+
+	public String _get(Class c, String k, Object...args){
 		String key;
 		if (c != null){
 			key = c.getName().replace("com.shatteredpixel.shatteredpixeldungeon.", "");
@@ -124,7 +152,7 @@ public class Messages {
 		}
 	}
 
-	private static String getFromBundle(String key){
+	private String getFromBundle(String key){
 		String result;
 		for (I18NBundle b : bundles){
 			result = b.get(key);
@@ -143,6 +171,10 @@ public class Messages {
 	 */
 
 	public static String format( String format, Object...args ) {
+		return instance._format(format, args);
+	}
+
+	public String _format( String format, Object...args ) {
 		try {
 			return String.format(Locale.ENGLISH, format, args);
 		} catch (IllegalFormatException e) {
@@ -152,6 +184,10 @@ public class Messages {
 	}
 
 	public static String capitalize( String str ){
+		return instance._capitalize(str);
+	}
+
+	public String _capitalize( String str ){
 		if (str.length() == 0)  return str;
 		else                    return Character.toTitleCase( str.charAt( 0 ) ) + str.substring( 1 );
 	}
@@ -166,6 +202,10 @@ public class Messages {
 	);
 
 	public static String titleCase( String str ){
+		return instance._titleCase(str);
+	}
+
+	public String _titleCase( String str ){
 		//English capitalizes every word except for a few exceptions
 		if (lang == Languages.ENGLISH){
 			String result = "";
